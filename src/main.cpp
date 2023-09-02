@@ -1,5 +1,7 @@
 #include "olcPixelGameEngine.h"
 #include "olcSoundWaveEngine.h"
+#include "SimonButton.h"
+
 #include <algorithm>
 #include <random>
 
@@ -10,52 +12,6 @@ constexpr int RedButton    = 1;
 constexpr int YellowButton = 2;
 constexpr int BlueButton   = 3;
 
-struct SimonButton {
-    
-    SimonButton(olc::vi2d pos, olc::vi2d size, olc::Pixel activeColor, olc::Pixel idleColor, olc::Key key, double soundFreq)
-        : pos(pos), size(size), activeColor(activeColor), idleColor(idleColor), key(key), soundFreq(soundFreq)
-    {
-		sound = olc::sound::Wave(1, sizeof(uint8_t), 44100, 22050);
-		
-        for (size_t i = 0; i < 22050; i++)
-		{
-			double dt = 1 / 44100.0;
-			double t = double(i) * dt;
-			sound.file.data()[i] = float(0.5 * sin(2.0 * soundFreq * 3.14159 * t));
-		}
-    }
-
-    void Draw(olc::PixelGameEngine* pge)
-    {
-        olc::Pixel color = (active) ? activeColor : idleColor;
-        
-        pge->FillRect(pos, size, color);
-        pge->DrawRect(pos, size, olc::GREY);
-
-        Deactivate();
-    }
-
-    void Activate()
-    {
-        active = true;
-    }
-
-    void Deactivate()
-    {
-        active = false;
-    }
-
-    bool active = false;
-    olc::Pixel activeColor;
-    olc::Pixel idleColor;
-    olc::vi2d pos;
-    olc::vi2d size;
-    olc::Key  key;
-    
-    double soundFreq;
-    olc::sound::Wave sound;
-};
-
 class OLC_Simon : public olc::PixelGameEngine
 {
 public:
@@ -65,10 +21,13 @@ public:
     }
 
 public:
+    
+    std::vector<int> vecMemory;
     std::vector<SimonButton*> vecButtons;
 
 	olc::sound::WaveEngine engine;
 	olc::sound::Wave custom_wave;    
+    
     bool OnUserCreate() override
     {
 		engine.InitialiseAudio(44100, 1);
@@ -87,6 +46,36 @@ public:
         vecButtons.push_back(new SimonButton({ centerScreen.x, 0}, centerScreen, olc::RED, olc::DARK_RED, olc::E, 329.63));
         vecButtons.push_back(new SimonButton({ 0, centerScreen.y}, centerScreen, olc::YELLOW, olc::DARK_YELLOW, olc::S, 523.25));
         vecButtons.push_back(new SimonButton(centerScreen, centerScreen, olc::BLUE, olc::DARK_BLUE, olc::D, 392.0));
+        
+        // generate bag
+        vecMemory.reserve(BAG_SIZE);
+        
+        for(int i = 0; i < BAG_SIZE; i++)
+            vecMemory.push_back(0);
+
+        std::random_device rd;
+        std::mt19937 generator(rd());
+        
+        int counter = 100;
+        
+        while(counter > 0)
+        {
+            // bag of buttons
+            std::vector<int> tempBag = { 1, 2, 3, 4 };
+            
+            // shuffle the bag, but ensure no repeats
+            do
+            {
+                std::shuffle(tempBag.begin(), tempBag.end(), generator);
+            } while(tempBag[0] == vecMemory[counter]);
+            
+            for(int &button : tempBag)
+            {
+                vecMemory[counter-1] = button;
+                counter--;
+            }
+        }
+                
         return true;
     }
 
