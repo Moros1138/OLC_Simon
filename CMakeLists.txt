@@ -8,6 +8,9 @@ cmake_minimum_required(VERSION 3.10)
 #
 project(OLC_Simon)
 
+set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+
+
 # Options you can set via command-line
 option(HAS_TERMINAL "Show a terminal window for STDOUT/STDERR" ON)
 option(USE_ALSA       "Force using ALSA as audio backend (Linux-only)")
