@@ -65,18 +65,48 @@ public:
     }
 
 public:
+    std::vector<SimonButton*> vecButtons;
 
 	olc::sound::WaveEngine engine;
 	olc::sound::Wave custom_wave;    
     bool OnUserCreate() override
     {
 		engine.InitialiseAudio(44100, 1);
+
+        // CREATE BUTTONS
+
+        olc::vi2d centerScreen = {
+            (ScreenWidth() / 2) - 1,
+            (ScreenHeight() / 2) - 1
+        };
+        
+        // prevent allocation fuckery
+        vecButtons.reserve(4);
+
+        vecButtons.push_back(new SimonButton({0, 0}, centerScreen, olc::GREEN, olc::DARK_GREEN, olc::W, 783.99));
+        vecButtons.push_back(new SimonButton({ centerScreen.x, 0}, centerScreen, olc::RED, olc::DARK_RED, olc::E, 329.63));
+        vecButtons.push_back(new SimonButton({ 0, centerScreen.y}, centerScreen, olc::YELLOW, olc::DARK_YELLOW, olc::S, 523.25));
+        vecButtons.push_back(new SimonButton(centerScreen, centerScreen, olc::BLUE, olc::DARK_BLUE, olc::D, 392.0));
         return true;
     }
 
     // Called by olcConsoleGameEngine
     bool OnUserUpdate(float fElapsedTime) override
     {
+        // INPUT
+        for(auto button : vecButtons)
+        {
+            if(GetKey(button->key).bHeld)
+			    button->Activate();
+            
+            if(GetKey(button->key).bPressed)
+                engine.PlayWaveform(&button->sound);
+        }
+                
+
+        // RENDERING
+        for(auto button : vecButtons)
+            button->Draw(this);
         return !GetKey(olc::ESCAPE).bPressed;
     }
 };
