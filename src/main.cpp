@@ -10,9 +10,17 @@ constexpr int BlueButton   = 3;
 
 struct SimonButton {
     
-    SimonButton(olc::vi2d pos, olc::vi2d size, olc::Pixel activeColor, olc::Pixel idleColor, olc::Key key)
-        : pos(pos), size(size), activeColor(activeColor), idleColor(idleColor), key(key)
+    SimonButton(olc::vi2d pos, olc::vi2d size, olc::Pixel activeColor, olc::Pixel idleColor, olc::Key key, double soundFreq)
+        : pos(pos), size(size), activeColor(activeColor), idleColor(idleColor), key(key), soundFreq(soundFreq)
     {
+		sound = olc::sound::Wave(1, sizeof(uint8_t), 44100, 22050);
+		
+        for (size_t i = 0; i < 22050; i++)
+		{
+			double dt = 1 / 44100.0;
+			double t = double(i) * dt;
+			sound.file.data()[i] = float(0.5 * sin(2.0 * soundFreq * 3.14159 * t));
+		}
     }
 
     void Draw(olc::PixelGameEngine* pge)
@@ -41,7 +49,9 @@ struct SimonButton {
     olc::vi2d pos;
     olc::vi2d size;
     olc::Key  key;
-
+    
+    double soundFreq;
+    olc::sound::Wave sound;
 };
 
 class OLC_Simon : public olc::PixelGameEngine
