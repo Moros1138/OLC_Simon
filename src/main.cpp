@@ -1,6 +1,8 @@
 #include "olcPixelGameEngine.h"
+#include "olcSoundWaveEngine.h"
 #include <algorithm>
 #include <random>
+
 #define BAG_SIZE 100
 
 constexpr int GreenButton  = 0;
@@ -64,8 +66,11 @@ public:
 
 public:
 
+	olc::sound::WaveEngine engine;
+	olc::sound::Wave custom_wave;    
     bool OnUserCreate() override
     {
+		engine.InitialiseAudio(44100, 1);
         return true;
     }
 
