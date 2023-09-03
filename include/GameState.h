@@ -1,11 +1,16 @@
 #pragma once
+#include "olcPixelGameEngine.h"
+#include "Button.h"
 #include <vector>
 
 struct GameState
 {
-    std::vector<int> vecSequence;
+    GameState();
+    
+    int  GetNext();
+    void RenderField(olc::PixelGameEngine* pge);
+
     int gameIndex;
-    int x;
-    int y;
-    int z;
+    std::vector<Button> vecButtons;
+    std::vector<int> vecSequence;
 };

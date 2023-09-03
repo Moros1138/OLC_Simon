@@ -12,20 +12,56 @@ void GameMode_ShowSequence::OnCreate(olc::PixelGameEngine* pge)
 
 void GameMode_ShowSequence::OnEnter(olc::PixelGameEngine* pge)
 {
-    state->x++;
+    int temp = rand() % 4;
+
+    // we do this to make sure we don't have repeats
+    if(state->vecSequence.empty())
+    {
+        state->vecSequence.push_back(temp);
+    }
+    else
+    {
+        while(temp == state->vecSequence.back())
+            temp = rand() % 4;
+        
+        state->vecSequence.push_back(temp);
+    }
+    
+    state->gameIndex = 0;
+    delayTracker     = 0.0f;
+    delay            = 1.0f;
 }
 
 void GameMode_ShowSequence::OnExit(olc::PixelGameEngine* pge)
 {
-
+    for(auto &sequence : state->vecSequence)
+        std::cout << sequence << std::endl;
+    
+    std::cout << std::endl;
 }
 
 Mode GameMode_ShowSequence::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTime)
 {
-    pge->Clear(olc::DARK_BLUE);
+    delayTracker += fElapsedTime;
+    
+    if(delayTracker > delay)
+    {
+        delayTracker -= delay;
+        
+        if(state->gameIndex == state->vecSequence.size())
+        {
+            return Mode::Play;
+        }
 
-    pge->DrawString({ 5, 5 }, "Show Sequence");
-    pge->DrawString({ 5, 15 }, std::to_string(state->x));
+        for(auto &button : state->vecButtons)
+            button.active = false;
+        
+        state->vecButtons[state->vecSequence[state->gameIndex]].active = true;
+        state->gameIndex++;
+    }
+
+    // Render The Current State
+    state->RenderField(pge);
 
     if(pge->GetKey(olc::SPACE).bPressed)
         return Mode::MainMenu;
