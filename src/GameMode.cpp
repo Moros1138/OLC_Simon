@@ -1,6 +1,10 @@
 #include "GameMode.h"
 
-GameMode::GameMode()
+GameMode::GameMode() : state(nullptr)
+{
+}
+
+GameMode::GameMode(GameState* gameState) : state(state)
 {
 }
 
