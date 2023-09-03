@@ -20,10 +20,6 @@ public:
         state.gameIndex = 0;
         state.vecSequence.reserve(100);
         
-        state.x = 0;
-        state.y = 0;
-        state.z = 0;
-
         mapModes[Mode::Invalid]      = new GameMode(&state);
         mapModes[Mode::Credits]      = new GameMode(&state);
         mapModes[Mode::ShowSequence] = new GameMode_ShowSequence(&state);
@@ -34,7 +30,7 @@ public:
         for(auto& mode : mapModes)
             mode.second->OnCreate(this);
         
-        modeNext = Mode::MainMenu;
+        modeNext = Mode::ShowSequence;
         return true;
     }
     
