@@ -1,7 +1,9 @@
 #include "olcPixelGameEngine.h"
 
+#include "GameState.h"
 #include "GameMode.h"
 #include "GameMode_MainMenu.h"
+#include "GameMode_ShowSequence.h"
 
 class OLC_Simon : public olc::PixelGameEngine
 {
@@ -15,12 +17,19 @@ public:
     
     bool OnUserCreate() override
     {
-        mapModes[Mode::Invalid]  = new GameMode();
-        mapModes[Mode::Credits]  = new GameMode();
-        mapModes[Mode::Demo]     = new GameMode();
-        mapModes[Mode::Fail]     = new GameMode();
-        mapModes[Mode::MainMenu] = new GameMode_MainMenu();
-        mapModes[Mode::Play]     = new GameMode();
+        state.gameIndex = 0;
+        state.vecSequence.reserve(100);
+        
+        state.x = 0;
+        state.y = 0;
+        state.z = 0;
+
+        mapModes[Mode::Invalid]      = new GameMode(&state);
+        mapModes[Mode::Credits]      = new GameMode(&state);
+        mapModes[Mode::ShowSequence] = new GameMode_ShowSequence(&state);
+        mapModes[Mode::Fail]         = new GameMode(&state);
+        mapModes[Mode::MainMenu]     = new GameMode_MainMenu(&state);
+        mapModes[Mode::Play]         = new GameMode(&state);
         
         for(auto& mode : mapModes)
             mode.second->OnCreate(this);
@@ -48,6 +57,8 @@ private:
     std::map<Mode, GameMode*> mapModes;
     Mode modeCurrent = Mode::Invalid;
     Mode modeNext;
+    GameState state;
+
 };
 
 int main()
