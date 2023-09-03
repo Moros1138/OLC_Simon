@@ -26,13 +26,9 @@ Mode GameMode_MainMenu::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTime)
     pge->DrawString({ 5, 15 }, std::to_string(state->vecSequence.size()));
     DrawStringCenter(pge, {pge->ScreenWidth() / 2, pge->ScreenHeight() / 2}, "OLC Simon");
     DrawStringCenter(pge, {pge->ScreenWidth() / 2, (pge->ScreenHeight() / 2) + 10}, "Press <SPACE> To Play");
-    DrawStringCenter(pge, {pge->ScreenWidth() / 2, (pge->ScreenHeight() / 2) + 20}, "Press <C> For Credits");
 
     if(pge->GetKey(olc::SPACE).bPressed)
         return Mode::ShowSequence;
-
-    if(pge->GetKey(olc::C).bPressed)
-        return Mode::Credits;
 
     return Mode::MainMenu;
 }

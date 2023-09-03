@@ -6,7 +6,6 @@
 enum Mode {
     Invalid = 0,
     MainMenu,
-    Credits,
     ShowSequence,
     Play,
     Fail

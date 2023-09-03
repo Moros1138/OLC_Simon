@@ -23,7 +23,6 @@ public:
         state.vecSequence.reserve(100);
         
         mapModes[Mode::Invalid]      = new GameMode(&state);
-        mapModes[Mode::Credits]      = new GameMode(&state);
         mapModes[Mode::ShowSequence] = new GameMode_ShowSequence(&state);
         mapModes[Mode::Fail]         = new GameMode_Fail(&state);
         mapModes[Mode::MainMenu]     = new GameMode_MainMenu(&state);
