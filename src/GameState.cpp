@@ -7,13 +7,13 @@ GameState::GameState()
 
 void GameState::RenderField(olc::PixelGameEngine* pge)
 {
+    olc::vi2d center = {
+        (pge->ScreenWidth()  / 2) - 1,
+        (pge->ScreenHeight() / 2) - 1
+    };
+
     if(vecButtons.empty())
     {
-        olc::vi2d center = {
-            (pge->ScreenWidth()  / 2) - 1,
-            (pge->ScreenHeight() / 2) - 1
-        };
-
         vecButtons.push_back({
             olc::vi2d{0, 0},
             center,
@@ -54,6 +54,14 @@ void GameState::RenderField(olc::PixelGameEngine* pge)
         pge->DrawRect(button.pos, button.size, button.active ? olc::WHITE : olc::VERY_DARK_GREY);
     }
 
-    pge->DrawString({5, 5}, std::to_string(gameIndex) + " : " + std::to_string(vecSequence.size()));
+    pge->DrawString(center + olc::vi2d{ -9, -9}, "W", olc::BLACK);
+    pge->DrawString(center + olc::vi2d{ 11, -9}, "E", olc::BLACK);
+    pge->DrawString(center + olc::vi2d{ -9, 11}, "S", olc::BLACK);
+    pge->DrawString(center + olc::vi2d{ 11, 11}, "D", olc::BLACK);
+
+    pge->DrawString(center + olc::vi2d{-10, -10}, "W");
+    pge->DrawString(center + olc::vi2d{ 10, -10}, "E");
+    pge->DrawString(center + olc::vi2d{-10,  10}, "S");
+    pge->DrawString(center + olc::vi2d{ 10,  10}, "D");
 }
 
