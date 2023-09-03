@@ -1,5 +1,5 @@
 #include "olcPixelGameEngine.h"
-
+#include "olcPGEX_SplashScreen.h"
 #include "GameState.h"
 #include "GameMode.h"
 #include "GameMode_MainMenu.h"
@@ -55,7 +55,7 @@ private:
     Mode modeCurrent = Mode::Invalid;
     Mode modeNext;
     GameState state;
-
+    olc::SplashScreen splashScreen;
 };
 
 int main()
