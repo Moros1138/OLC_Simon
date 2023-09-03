@@ -2,8 +2,9 @@
 
 void DrawStringCenter(olc::PixelGameEngine* pge, olc::vi2d pos, std::string text, const olc::Pixel fgColor, const olc::Pixel bgColor )
 {
+    int textSize = text.size();
     olc::vi2d offset = {
-        (text.size() / 2) * 8,
+        (textSize / 2) * 8,
         4
     };
     
