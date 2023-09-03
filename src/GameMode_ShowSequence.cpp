@@ -12,6 +12,8 @@ void GameMode_ShowSequence::OnCreate(olc::PixelGameEngine* pge)
 
 void GameMode_ShowSequence::OnEnter(olc::PixelGameEngine* pge)
 {
+    srand(time(NULL));
+    
     int temp = rand() % 4;
 
     // we do this to make sure we don't have repeats
@@ -29,7 +31,7 @@ void GameMode_ShowSequence::OnEnter(olc::PixelGameEngine* pge)
     
     state->gameIndex = 0;
     delayTracker     = 0.0f;
-    delay            = 1.0f - (float(state->vecSequence.size()) / 50.0f);
+    delay            = 1.0f - (float(state->vecSequence.size()) / 25.0f);
 }
 
 void GameMode_ShowSequence::OnExit(olc::PixelGameEngine* pge)
@@ -58,8 +60,6 @@ Mode GameMode_ShowSequence::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTi
 
     // Render The Current State
     state->RenderField(pge);
-    pge->DrawString({5, 15}, "Show Sequence");
-
 
     if(pge->GetKey(olc::SPACE).bPressed)
         return Mode::MainMenu;

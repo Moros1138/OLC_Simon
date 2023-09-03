@@ -51,7 +51,6 @@ Mode GameMode_Play::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTime)
     
     // Render The Current State
     state->RenderField(pge);
-    pge->DrawString({5, 15}, "Play");
 
     if(pge->GetKey(olc::SPACE).bPressed)
         return Mode::MainMenu;
