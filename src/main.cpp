@@ -4,6 +4,8 @@
 #include "GameMode.h"
 #include "GameMode_MainMenu.h"
 #include "GameMode_ShowSequence.h"
+#include "GameMode_Play.h"
+#include "GameMode_Fail.h"
 
 class OLC_Simon : public olc::PixelGameEngine
 {
@@ -23,9 +25,9 @@ public:
         mapModes[Mode::Invalid]      = new GameMode(&state);
         mapModes[Mode::Credits]      = new GameMode(&state);
         mapModes[Mode::ShowSequence] = new GameMode_ShowSequence(&state);
-        mapModes[Mode::Fail]         = new GameMode(&state);
+        mapModes[Mode::Fail]         = new GameMode_Fail(&state);
         mapModes[Mode::MainMenu]     = new GameMode_MainMenu(&state);
-        mapModes[Mode::Play]         = new GameMode(&state);
+        mapModes[Mode::Play]         = new GameMode_Play(&state);
         
         for(auto& mode : mapModes)
             mode.second->OnCreate(this);

@@ -21,13 +21,37 @@ void GameMode_Play::OnExit(olc::PixelGameEngine* pge)
 
 Mode GameMode_Play::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTime)
 {
-    for(auto &button : state->vecButtons)
+    if(state->gameIndex == state->vecSequence.size())
+    {
+        return Mode::ShowSequence;
+    }
+    
+    for(int i = 0; i < state->vecButtons.size(); i++)
+    {
+        auto &button = state->vecButtons[i];
         button.active = false;
-    
-    
+
+        if(pge->GetKey(button.key).bHeld)
+        {
+            button.active = true;
+        }
+
+        if(pge->GetKey(button.key).bReleased)
+        {
+            // check
+            if(state->vecSequence[state->gameIndex] != i)
+            {
+                return Mode::Fail;
+            }
+            
+            // if we make it here, we had a successful
+            state->gameIndex++;
+        }
+    }
     
     // Render The Current State
     state->RenderField(pge);
+    pge->DrawString({5, 15}, "Play");
 
     if(pge->GetKey(olc::SPACE).bPressed)
         return Mode::MainMenu;

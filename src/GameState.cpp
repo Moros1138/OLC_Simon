@@ -18,28 +18,32 @@ void GameState::RenderField(olc::PixelGameEngine* pge)
             olc::vi2d{0, 0},
             center,
             olc::GREEN,
-            olc::VERY_DARK_GREEN
+            olc::VERY_DARK_GREEN,
+            olc::W
         });
         
         vecButtons.push_back({
             olc::vi2d{center.x + 1, 0},
             center,
             olc::RED,
-            olc::VERY_DARK_RED
+            olc::VERY_DARK_RED,
+            olc::E
         });
         
         vecButtons.push_back({
             olc::vi2d{0, center.y + 1},
             center,
             olc::YELLOW,
-            olc::VERY_DARK_YELLOW
+            olc::VERY_DARK_YELLOW,
+            olc::S
         });
         
         vecButtons.push_back({
             olc::vi2d{center.x + 1, center.y + 1},
             center,
             olc::BLUE,
-            olc::VERY_DARK_BLUE
+            olc::VERY_DARK_BLUE,
+            olc::D
         });
 
     }

@@ -1,0 +1,12 @@
+#pragma once
+#include "GameMode.h"
+
+class GameMode_Fail : public GameMode
+{
+public:
+    GameMode_Fail(GameState* state);
+    void OnCreate(olc::PixelGameEngine* pge) override;
+    void OnEnter(olc::PixelGameEngine* pge) override;
+    void OnExit(olc::PixelGameEngine* pge) override;
+    Mode OnUpdate(olc::PixelGameEngine *pge, float fElapsedTime) override;
+};

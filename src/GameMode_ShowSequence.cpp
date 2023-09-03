@@ -34,10 +34,6 @@ void GameMode_ShowSequence::OnEnter(olc::PixelGameEngine* pge)
 
 void GameMode_ShowSequence::OnExit(olc::PixelGameEngine* pge)
 {
-    for(auto &sequence : state->vecSequence)
-        std::cout << sequence << std::endl;
-    
-    std::cout << std::endl;
 }
 
 Mode GameMode_ShowSequence::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTime)
@@ -62,6 +58,8 @@ Mode GameMode_ShowSequence::OnUpdate(olc::PixelGameEngine *pge, float fElapsedTi
 
     // Render The Current State
     state->RenderField(pge);
+    pge->DrawString({5, 15}, "Show Sequence");
+
 
     if(pge->GetKey(olc::SPACE).bPressed)
         return Mode::MainMenu;
