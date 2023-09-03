@@ -29,7 +29,7 @@ void GameMode_ShowSequence::OnEnter(olc::PixelGameEngine* pge)
     
     state->gameIndex = 0;
     delayTracker     = 0.0f;
-    delay            = 1.0f;
+    delay            = 1.0f - (float(state->vecSequence.size()) / 50.0f);
 }
 
 void GameMode_ShowSequence::OnExit(olc::PixelGameEngine* pge)
