@@ -31,7 +31,7 @@ public:
         for(auto& mode : mapModes)
             mode.second->OnCreate(this);
         
-        modeNext = Mode::ShowSequence;
+        modeNext = Mode::MainMenu;
         return true;
     }
     
