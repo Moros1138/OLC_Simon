@@ -1,10 +1,10 @@
 #pragma once
 #include "GameMode.h"
 
-class GameMode_MainMenu : public GameMode
+class GameMode_ShowSequence : public GameMode
 {
 public:
-    GameMode_MainMenu(GameState* state);
+    GameMode_ShowSequence(GameState* state);
     void OnCreate(olc::PixelGameEngine* pge) override;
     void OnEnter(olc::PixelGameEngine* pge) override;
     void OnExit(olc::PixelGameEngine* pge) override;
